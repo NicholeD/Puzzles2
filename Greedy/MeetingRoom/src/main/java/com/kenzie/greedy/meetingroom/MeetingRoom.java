@@ -1,6 +1,7 @@
 package com.kenzie.greedy.meetingroom;
 
-import java.util.List;
+import java.security.KeyStore;
+import java.util.*;
 
 /**
  * Contains a problem that can be solved using the Greedy Technique.
@@ -22,7 +23,24 @@ public class MeetingRoom {
      * @return the maximum number of meetings that can be accommodated
      */
     public static int getMaximumMeetings(List<Meeting> meetings) {
-        // TODO: Implement an algorithm that utilizes the greedy technique
-        return -1;
+        Map<Integer, Meeting> meetingsMap = new HashMap<Integer, Meeting>();
+
+        for (Meeting meeting : meetings) {
+            meetingsMap.put(meeting.getStartTime(), meeting);
+        }
+        TreeMap<Integer, Meeting> sortedMeetings = new TreeMap<>(meetingsMap);
+
+        ArrayList<Meeting> maxMeetings = new ArrayList<>();
+
+        sortedMeetings.entrySet()
+                .forEach(x -> {
+                    if (maxMeetings.size() == 0) {
+                        maxMeetings.add(x.getValue());
+                    } else if (x.getKey() >= maxMeetings.get(maxMeetings.size()-1).getEndTime()) {
+                        maxMeetings.add(x.getValue());
+                    }
+                });
+
+        return maxMeetings.size();
     }
 }
