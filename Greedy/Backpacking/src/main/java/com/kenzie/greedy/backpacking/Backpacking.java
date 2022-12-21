@@ -1,6 +1,6 @@
 package com.kenzie.greedy.backpacking;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Contains a problem that can be solved using the Greedy Technique.
@@ -23,6 +23,27 @@ public class Backpacking {
      */
     public static int getMaximumSnacks(List<Snack> snacks, int weightLimit) {
         // TODO: Implement an algorithm that utilizes the greedy technique
-        return -1;
+        int remainingWeight = weightLimit;
+        Map<Integer, String> snackMap = new TreeMap<Integer, String>();
+
+        for (Snack snack : snacks) {
+            int weight = snack.getWeight();
+            String name = snack.getName();
+            snackMap.put(weight, name);
+        }
+
+        Map<Integer, String> sortedSnacks = new TreeMap<Integer, String>(snackMap);
+        ArrayList maxSnacks = new ArrayList();
+
+        for (Integer integer : sortedSnacks.keySet()) {
+            if (integer <= remainingWeight) {
+                maxSnacks.add(integer);
+                remainingWeight -= integer;
+            } else {
+                break;
+            }
+        }
+
+        return maxSnacks.size();
     }
 }
