@@ -1,6 +1,7 @@
 package com.kenzie.slidingwindow.minimumsumsubset;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * Contains a problem that can be solved using the Sliding Window Technique.
@@ -24,7 +25,9 @@ public class MinimumSumSubset {
     public static int findMinimumSum(List<Integer> input, int k) {
         // TODO: Implement an algorithm that utilizes the sliding window technique
 
-        return -1;
+        return IntStream.range(0, input.size() - k + 1)
+                .mapToObj(i -> input.subList(i, i + k))
+                .mapToInt(list -> list.stream().mapToInt(i -> i).sum())
+                .min().orElse(0);
     }
-
 }

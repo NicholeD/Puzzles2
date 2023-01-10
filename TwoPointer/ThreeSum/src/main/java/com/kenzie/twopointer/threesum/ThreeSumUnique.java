@@ -1,7 +1,9 @@
 package com.kenzie.twopointer.threesum;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Contains a problem that can be solved using the Two-Pointer Technique.
@@ -19,6 +21,18 @@ public class ThreeSumUnique {
      * @return all triplets that sum to 0
      */
     public static List<List<Integer>> threeSum(int[] nums) {
-        return Collections.emptyList();
+        return Arrays.stream(nums)
+                .boxed()
+                .flatMap(i -> Arrays.stream(nums)
+                        .filter(j -> j!=i)
+                        .boxed()
+                        .flatMap(j -> Arrays.stream(nums)
+                                .filter(k -> k != j && k != i)
+                                .filter(k -> i + j + k == 0)
+                                .boxed()
+                                .map(k ->List.of(i, j, k))
+                    )
+                )
+                .collect(Collectors.toList());
     }
 }

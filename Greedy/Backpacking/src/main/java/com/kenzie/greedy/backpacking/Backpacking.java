@@ -22,28 +22,29 @@ public class Backpacking {
      * @return the maximum number of snacks we can pack
      */
     public static int getMaximumSnacks(List<Snack> snacks, int weightLimit) {
-        // TODO: Implement an algorithm that utilizes the greedy technique
-        int remainingWeight = weightLimit;
-        Map<Integer, String> snackMap = new TreeMap<Integer, String>();
+        Collections.sort(snacks, new Comparator<Snack>() {
+            public int compare(Snack o1, Snack o2) {
+                return o1.getWeight() - o2.getWeight();
+            }
+        });
+
+        int maxSnacks = 0;
+        int currentWeight = 0;
 
         for (Snack snack : snacks) {
-            int weight = snack.getWeight();
-            String name = snack.getName();
-            snackMap.put(weight, name);
-        }
-
-        Map<Integer, String> sortedSnacks = new TreeMap<Integer, String>(snackMap);
-        ArrayList maxSnacks = new ArrayList();
-
-        for (Integer integer : sortedSnacks.keySet()) {
-            if (integer <= remainingWeight) {
-                maxSnacks.add(integer);
-                remainingWeight -= integer;
-            } else {
-                break;
+            if (currentWeight + snack.getWeight() <= weightLimit) {
+                maxSnacks++;
+                currentWeight += snack.getWeight();
             }
         }
 
-        return maxSnacks.size();
+        return maxSnacks;
+    }
+
+    /** HELPERS */
+    private static int getWeight(String snack) {
+        int start = snack.indexOf("(");
+        int end = snack.indexOf(")");
+        return Integer.parseInt(snack.substring(start + 1, end));
     }
 }

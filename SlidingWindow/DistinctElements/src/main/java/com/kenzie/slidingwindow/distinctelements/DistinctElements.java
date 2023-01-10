@@ -1,7 +1,8 @@
 package com.kenzie.slidingwindow.distinctelements;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Contains a problem that can be solved using the Sliding Window Technique.
@@ -23,10 +24,14 @@ public class DistinctElements {
      *         elements for the sublist with items 0, 1, 2 should be first in the list followed by the
      *         count for items 1, 2, 3
      */
-    public static List<Integer> countDistinctElements(List<Integer> input, int k) {
-        // TODO: Implement an algorithm that utilizes the sliding window technique
 
-        return Collections.emptyList();
+    public static List<Integer> countDistinctElements(List<Integer> input, int k) {
+        return IntStream.range(0, input.size() - k + 1)
+                .mapToObj(i -> input.subList(i, i + k))
+                .map(list -> (int) list.stream()
+                        .distinct()
+                        .count())
+                .collect(Collectors.toList());
     }
 
 }
